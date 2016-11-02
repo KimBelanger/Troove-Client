@@ -3,15 +3,15 @@
 Project:	AutoStars
 Version:	1.0
 Last change:	01/15/15
-Author:	imithemes 
+Author:	imithemes
 -------------------------------------------------------------------*/
 /* Stylesheets and Google fonts import */
 @import url("font-awesome.css");
 @import url("line-icons.css");
 @import url("animations.css");
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,300);
-@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700);
-@import url(http://fonts.googleapis.com/css?family=Playfair+Display:400,400italic,700);
+@import url(//fonts.googleapis.com/css?family=Roboto:400,700,300);
+@import url(//fonts.googleapis.com/css?family=Roboto+Condensed:400,700);
+@import url(//fonts.googleapis.com/css?family=Playfair+Display:400,400italic,700);
 
 /*------------------------------------------------------------------
 [Table of contents]
@@ -77,8 +77,8 @@ html, body {
 
 html, hmtl a{
 	width:100%;
-	font-size: 100%; 
-	-webkit-text-size-adjust: 100%; 
+	font-size: 100%;
+	-webkit-text-size-adjust: 100%;
 	-ms-text-size-adjust: 100%;
 }
 a{
@@ -105,7 +105,7 @@ a img {
 	border: none;
 }
 a > img {
-	vertical-align: middle;	
+	vertical-align: middle;
 }
 .gray-bg{
 	background:#e8e8e8;
@@ -126,7 +126,7 @@ a > img {
 	color:#fff!important;
 }
 img {
-	max-width: 100%;	
+	max-width: 100%;
 }
 img, object, embed, audio, video {
 	max-width: 100%;
@@ -161,7 +161,7 @@ i, em, .italic{
 	text-align: center;
 }
 .text-align-right {
-	text-align: right;	
+	text-align: right;
 }
 .color-text {
     color: #ffffff;
@@ -179,15 +179,15 @@ i, em, .italic{
 }
 
 :-moz-placeholder { /* Firefox 18- */
-   color: #999;  
+   color: #999;
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
-   color: #999;  
+   color: #999;
 }
 
-:-ms-input-placeholder {  
-   color: #999;  
+:-ms-input-placeholder {
+   color: #999;
 }
 iframe{
 	border:0;
@@ -919,10 +919,10 @@ p.meta-data{
 	visibility: hidden;
 	line-height: 0;
 	height: 0;
-} 
+}
 html[xmlns] .slides {
 	display: block;
-} 
+}
 * html .slides {
 	height: 1%;
 }
@@ -930,7 +930,7 @@ html[xmlns] .slides {
 	zoom: 1;
 	margin:0;
 	list-style-type:none;
-}  
+}
 .hero-slider{
 	position:relative;
 	z-index:1;
@@ -2154,7 +2154,7 @@ body.boxed .body{
 .utility-icons > li > a > [class*=" icon-"]:before{
 	line-height:42px;
 }
- 
+
 .search-trigger{
 	margin-top:-1px;
 }
@@ -3178,7 +3178,7 @@ h1.page-title{
 	height: 100%;
 	width: 6px;
 	display: inline-block;
-	
+
 	-webkit-animation: stretchdelay 1.2s infinite ease-in-out;
 	animation: stretchdelay 1.2s infinite ease-in-out;
 }
@@ -3204,15 +3204,15 @@ h1.page-title{
 }
 
 @-webkit-keyframes stretchdelay {
-	0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+	0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
 	20% { -webkit-transform: scaleY(1.0) }
 }
 
 @keyframes stretchdelay {
-	0%, 40%, 100% { 
+	0%, 40%, 100% {
 	  transform: scaleY(0.4);
 	  -webkit-transform: scaleY(0.4);
-	}  20% { 
+	}  20% {
 	  transform: scaleY(1.0);
 	  -webkit-transform: scaleY(1.0);
 	}
@@ -4856,13 +4856,13 @@ h1.page-title{
 /* Pricing Tables
 /*-------------------------------------------------------------------------------------------*/
 .pricing-table {
-	margin-top: 50px;	
+	margin-top: 50px;
 	margin-bottom: 50px;
 }
-.pricing-table:after { 
-	display: block; 
-	visibility: hidden; 
-	clear: both; 
+.pricing-table:after {
+	display: block;
+	visibility: hidden;
+	clear: both;
 	height: 0;
 	content: "";
 }
@@ -4956,7 +4956,7 @@ h1.page-title{
 .pricing-column h4 {
 	margin-bottom: 0px;
 	margin-left: -22px;
-	padding: 20px 30px 6px 30px;	
+	padding: 20px 30px 6px 30px;
 	color: #333333;
 	font-size: 54px!important;
 	line-height: 42px!important;
@@ -5678,5 +5678,5 @@ body{
 @media only screen and (min-width: 480px) and (max-width: 767px) {
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
-	
+
 }
