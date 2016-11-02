@@ -1,6 +1,6 @@
 {
   "name": "troove",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha",
   "description": "Troove.ca Frontend (Vue.js)",
   "author": "Kim Belanger / Neuronex",
   "private": true,

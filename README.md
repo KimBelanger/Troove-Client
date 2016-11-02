@@ -1,4 +1,4 @@
-# troove
+# troove 0.0.1-alpha
 
 > Reference frontend for api.troove.ca (Vue.js)
 
