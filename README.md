@@ -2,6 +2,8 @@
 
 > Reference frontend for api.troove.ca (Vue.js)
 
+[ ![Codeship Status for KimBelanger/Troove-Client](https://app.codeship.com/projects/946b5e40-9796-0134-7656-42b34a73edd3/status?branch=master)](https://app.codeship.com/projects/187077)
+
 ## Build Setup
 
 ``` bash
