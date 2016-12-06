@@ -26,13 +26,24 @@
 	<link href="static/template/css/custom.css" rel="stylesheet" type="text/css"><!-- CUSTOM STYLESHEET FOR STYLING -->
 	<!-- Color Style -->
 	<link href="static/template/colors/color4.css" rel="stylesheet" type="text/css">
+
 	<!-- K Styles -->
 	<link href="static/kstyles.css" rel="stylesheet" type="text/css">	
     
     <!-- SCRIPTS
 	  ================================================== -->
 	<script src="static/template/js/modernizr.js"></script><!-- Modernizr -->
-    
+    <style>
+
+        .recent-vehicles{
+            display:none !important
+        }
+        .content {
+            padding: 50px 0 50px 0;
+            min-height: 0px;
+        }
+    </style>
+
 </head>
 
 <body class="home boxed" style="background-image:url(//troove.ca/wp-content/uploads/2015/08/background1.jpg); background-repeat: no-repeat; background-size:cover; margin: 0px auto;">
@@ -375,14 +386,16 @@
         </div>
    	</div>
     <div class="hero-area">
-        <!-- Start Hero Slider -->
+
+        <!-- Start Hero Slider
         <div class="hero-slider heroflex flexslider clearfix" data-autoplay="yes" data-pagination="no" data-arrows="yes" data-style="fade" data-speed="3000" data-pause="yes">
             <ul class="slides">
                 <li class="parallax" style="background-image:url(//placehold.it/1400x500&amp;text=IMAGE+TEMPORAIRE+1);"></li>
                 <li class="parallax" style="background-image:url(//placehold.it/1400x500&amp;text=IMAGE+TEMPORAIRE+2);"></li>
             </ul>
         </div>
-        <!-- End Hero Slider -->
+        End Hero Slider -->
+
     </div>
     <!-- Utiity Bar -->
     <div class="utility-bar">
@@ -444,7 +457,7 @@
 						</p>
                     </div>
                 </div>
-                <div class="spacer-75"></div>
+                <!--<div class="spacer-75"></div>-->
                 <!-- Recently Listed Vehicles -->
                 <section class="listing-block recent-vehicles">
                 	<div class="listing-header">
@@ -561,10 +574,15 @@
                     </div>
                 </section>
            	</div>
-
-            <div class="spacer-50"></div>
         </div>
    	</div>
+
+    <div id="resultgrid" class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <iframe style="width: 100%; height: 425px; position: relative; display: block;" src="c_table.html" frameborder="0" allowfullscreen></iframe>
+            </div>
+    </div>
+
     <!-- End Body Content -->
     <!-- Start site footer -->
     <footer class="site-footer">
@@ -668,6 +686,14 @@
 <script src="static/template/vendor/flexslider/js/jquery.flexslider.js"></script> <!-- FlexSlider -->
 <script src="https://cdn.auth0.com/js/lock/10.6/lock.min.js"></script> 
  <!--<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyDR-UwCJny15cbVWEG6XpFkeAAumTz4930"></script> -->
+<script src="https://www.doqtek.com/immo/js/jquery.responsiveiframe.js"></script>
+<script>
+  ;(function($){          
+      $(function(){
+        $('#resultgrid').responsiveIframe({ xdomain: '*'});
+      });        
+  })(jQuery);
+</script>
 
 <script>
     

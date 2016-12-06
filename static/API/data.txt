@@ -4,14 +4,8 @@
   "iTotalDisplayRecords": 81874,  
   "aaData": [
     {
-      "DT_RowId": "row_1",
-      "DT_RowClass": "",
-      "name": "Tiger Nixon",
-      "position": "System Architect",
-      "salary": "$320,800",
-      "start_date": "2011/04/25",
-      "office": "Edinburgh",
-      "extn": "5421",
+        "DT_RowId": "row_1",
+        "DT_RowClass": " ",
         "srcPicLink": "https://placeholdit.imgix.net/~text?txtsize=33&txt=200%C3%97149&w=200&h=149",
         "srcLink": "http://www.kijiji.ca/v-autos-camions/saint-jean-sur-richelieu/2006-pour-1900-pt-cruise-pas-cher-epropre-pas-de-rouille/1142785370",
         "Manufacturier": "",
@@ -44,14 +38,8 @@
         "uid": "1"      
     },
     {
-      "DT_RowId": "row_1",
-      "DT_RowClass": "",
-      "name": "Tiger Nixon",
-      "position": "System Architect",
-      "salary": "$320,800",
-      "start_date": "2011/04/25",
-      "office": "Edinburgh",
-      "extn": "5421",
+        "DT_RowId": "row_1",
+        "DT_RowClass": " ",
         "srcPicLink": "https://placeholdit.imgix.net/~text?txtsize=33&txt=200%C3%97149&w=200&h=149",
         "srcLink": "http://www.kijiji.ca/v-autos-camions/saint-jean-sur-richelieu/2006-pour-1900-pt-cruise-pas-cher-epropre-pas-de-rouille/1142785370",
         "Manufacturier": "",
@@ -84,14 +72,8 @@
         "uid": "1"      
     },
     {
-      "DT_RowId": "row_1",
-      "DT_RowClass": "",
-      "name": "Tiger Nixon",
-      "position": "System Architect",
-      "salary": "$320,800",
-      "start_date": "2011/04/25",
-      "office": "Edinburgh",
-      "extn": "5421",
+        "DT_RowId": "row_1",
+        "DT_RowClass": " ",
         "srcPicLink": "https://placeholdit.imgix.net/~text?txtsize=33&txt=200%C3%97149&w=200&h=149",
         "srcLink": "http://www.kijiji.ca/v-autos-camions/saint-jean-sur-richelieu/2006-pour-1900-pt-cruise-pas-cher-epropre-pas-de-rouille/1142785370",
         "Manufacturier": "",
@@ -122,6 +104,6 @@
         "title": "2006 POUR $1900 PT CRUISE PAS CH&#200;R EPROPRE PAS DE ROUILLE",
         "StockNo": "",
         "uid": "1"      
-    }        
+    },      
   ]
 }

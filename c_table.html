@@ -1,0 +1,318 @@
+<!DOCTYPE HTML>
+
+<html class="no-js">
+<head>
+	<!-- Basic Page Needs
+	  ================================================== -->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Troove.ca - rapide, précis, efficace</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="author" content="Neuronex inc / KB">
+
+	<!-- Mobile Specific Metas
+	  ================================================== -->
+	<meta name="viewport" content="width=device-width, user-scalable=0, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<meta name="format-detection" content="telephone=yes">
+
+	<link href="static/template/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="static/template/css/bootstrap-theme.css" rel="stylesheet" type="text/css">
+	<link href="static/template/css/style.css" rel="stylesheet" type="text/css">
+	<link href="static/template/vendor/prettyphoto/css/prettyPhoto.css" rel="stylesheet" type="text/css">
+	<!--[if lte IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
+	<link href="static/template/css/custom.css" rel="stylesheet" type="text/css">
+	<link href="static/template/colors/color4.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.13/css/perfect-scrollbar.min.css" />
+
+    <!-- datatables -->
+    <link rel="stylesheet" type="text/css" href="https://www.doqtek.com/immo/CSS/dataTablesBootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.doqtek.com/immo/CSS/dataTables.scroller.css" />
+
+    <style>
+        .pace {
+            -webkit-pointer-events: none;
+            pointer-events: none;
+
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        .pace-inactive {
+            display: none;
+        }
+
+        .pace .pace-progress {
+            background: #F23827;
+            position: fixed;
+            z-index: 2000;
+            top: 0;
+            right: 100%;
+            width: 100%;
+            height: 2px;
+        }        
+                
+        div.DTS div.dataTables_scrollBody {
+            background: white !important;
+            background-color: white !important;
+        }
+        
+        .table > tbody > tr > td { padding: 4px;}
+        .table > thead > tr > th { border-bottom: 0;}
+        .table > tbody > tr > th, .table > tbody > tr > td { border-top: 0;}        
+        
+        #t_cars_filter {
+            display:none !important
+        }
+        
+        .results-list-view .result-item {
+            margin-bottom: 2px;
+        }        
+
+        .table-img{
+            z-index: -1;
+            position: absolute;
+            width:100%
+        }
+        
+        #t_cars_processing { color: #F23827; padding: 5px 0 5px 0; text-align:center; }
+
+        .media-box{width: 285px; height: 193px;}
+        .results-list-view .result-item-image {
+            width: auto;
+            position: relative;
+        }
+
+        .results-list-view .result-item-in {
+            width: calc(100% - 285px);        
+        }
+
+        .result-item-block.col2 {
+            width: 150px;
+            float: right;
+        }
+
+        .result-item-block.col1 {
+            width: calc(100% - 160px);
+            margin-right: 0       
+        }
+
+        @media only screen and (max-width: 992px){
+            .result-item-block.col1 {
+                display: inherit;
+            }
+            .results-list-view .result-item-in {
+                min-height: 231px;
+            }              
+        }
+
+        .ps-scrollbar-y-rail { z-index: 9 !important };
+
+        p {white-space: normal;}
+    </style>
+    
+	<script src="static/template/js/modernizr.js"></script>
+    
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <table id="t_cars" class="table table-condensed">
+
+                <tbody>
+
+                </tbody>
+                
+            </table>
+        </div>
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+    
+    <script src="static/template/vendor/prettyphoto/js/prettyphoto.js"></script>
+    <script src="static/template/js/bootstrap.js"></script>
+
+    <!-- SLIMSCROLL -->
+    <!--<script src="https://www.doqtek.com/immo/js/jquery.slimscroll.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.13/js/perfect-scrollbar.jquery.min.js"></script>
+
+    <!-- javascript Datatables -->
+    <script src="https://www.doqtek.com/immo/js/dataTablesJquery.js"></script>
+    <script src="https://www.doqtek.com/immo/js/dataTablesBootstrap.js"></script>
+
+    <!-- Activate responsiveness in the "child" page -->
+    <script src="https://www.doqtek.com/immo/js/jquery.responsiveiframe.js"></script>
+    <script>
+        var ri = responsiveIframe();
+        ri.allowResponsiveEmbedding();
+    </script>
+
+
+    <!-- ITEM TEMPLATE -->
+        <script id="cartlistitem" type="text/template">
+            <div class="result-item format-standard">
+                <div class="result-item-image">
+                    <a href="javascript:;" class="media-box" >
+                        <img class="table-img" src="{{=it.imgsrc}}" alt="car image">
+                        <span class="zoom" onClick="zoomThis('{{=it.imgsrc}}')"><span class='icon'><i class='icon-plus'></i></span></span>
+                    </a>
+                    <span class="label label-default vehicle-age">{{=it.annee}}</span>
+                    <span class="label label-success premium-listing">Premium Listing</span>
+                    <div class="result-item-view-buttons">
+                        <a href="javascript:;" data-rel="prettyPhoto"><i class="fa fa-play"></i> Vidéos</a>
+                        <a href="javascript:;"><i class="fa fa-plus"></i> Détails</a>
+                    </div>
+                </div>
+                <div class="result-item-in">
+                    <h4 class="result-item-title"><a href="javascript:;">{{=it.titre}}</a></h4>
+                    <div class="result-item-cont">
+                        <div class="result-item-block col1">
+                            <p>{{=it.description}}</p>
+                        </div>
+                        <div class="result-item-block col2">
+                            <div class="result-item-pricing">
+                                <div class="price">$48000</div>
+                            </div>
+                            <div class="result-item-action-buttons">
+                                <a href="javascript:;" class="btn btn-default btn-sm"><i class="fa fa-star-o"></i> Save</a>
+                                <a href="javascript:;" class="btn btn-default btn-sm">Enquire</a><br>
+                                <a href="javascript:;" class="distance-calc"><i class="fa fa-map-marker"></i> Distance from me?</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result-item-features">
+                        <ul class="inline">
+                            <li><i class="fa fa-caret-right"></i>4 door SUV</li>
+                            <li><i class="fa fa-caret-right"></i>6 cyl, 3.0 L Petrol</li>
+                            <li><i class="fa fa-caret-right"></i>6 speed Automatic</li>
+                            <li><i class="fa fa-caret-right"></i>4x4 Wheel Drive</li>
+                            <li><i class="fa fa-caret-right"></i>Listed by Individual</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dot/1.1.0/doT.js"></script>
+    <!-- // ITEM TEMPLATE -->
+
+    <!-- PACE AJAX PROGRESS BAR -->
+        <script type="text/javascript">
+        paceOptions = {
+            restartOnRequestAfter: 500,
+            restartOnPushState: true,
+            minTime: 100,
+            ajax: true,
+            document: true,
+            eventLag: true
+        }
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <!-- // PACE AJAX PROGRESS BAR -->
+
+    <script>
+        var tempFn = doT.template( $("#cartlistitem").html() );
+        function rowrender(aData,nRow){
+            //console.log(nRow);
+            return tempFn({
+                imgsrc: aData[1],
+                titre: 'TITRE',
+                description: 'DESCRIPTION ... Lorem ipsum dolor sit amet',
+                annee: 2014
+            });
+        }    
+    </script>
+
+    <script>
+        $(document).ready(function()
+        {
+
+            $height = 400; //$(window).height() - 350;
+
+            var oTable = $('#t_cars').dataTable({
+                "bProcessing": true,
+                "iDisplayLength": 20,
+                "bLengthChange": false,
+                "bServerSide": true,
+                "sServerMethod": "POST", 
+                "bDeferRender": true,
+                "bAutoWidth": false,
+                "bScrollInfinite": true,
+                "bScrollCollapse": true,
+                "oScroller": { "loadingIndicator": true }, 
+                "sScrollY": $height - 50 + 'px',
+                "iScrollLoadGap": 50,
+                "sAjaxSource": "https://data.troove.ca/data.cfm",
+                "sDom": "<'row-fluid'<'span5'<'toolbar'>><'span2'r><'span5 pull-right'f>>t<'row-fluid'<'span6'i><'span6'>>",
+                "bDeferRender": true,
+                "bStateSave": false,
+                "fnServerParams": function(aoData) { aoData.push({ "name": "K", "value": "1" }); },
+                "aoColumnDefs": [
+                    {
+                    "sName": "uid",
+                    "bSortable": false,
+                    "sWidth": "100%",
+                    "sClass": "results-list-view",
+                    "aTargets": [0]
+                    }
+                ],
+                "oLanguage": {
+                    "sProcessing": "chargement..",
+                    "sLengthMenu": "_MENU_ lignes par page",
+                    "sZeroRecords": "Aucune donn\xE9es",
+                    "sInfo": "Lignes <var>_START_<\/var> \xE0 <var>_END_<\/var> sur <var>_TOTAL_<\/var> r\xE9sultats",
+                    "sInfoEmpty": "Aucune donn\xE9es",
+                    "sInfoFiltered": "(filtr\xE9 \xE0 partir de <var>_MAX_<\/var> lignes totales)",
+                    "sSearch": "",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr\xE9c\xE9dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    }
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) { 
+                    $('td:eq(0)', nRow).html(rowrender(aData, nRow));
+                    return nRow;
+                },
+                "fnDrawCallback": function(oSettings) {
+                }
+            }); //dataTable
+
+            // $(window).bind('resizeEnd', function()
+            // {
+            //     if (1 == 1)
+            //     {
+            //         /*$(".dataTables_scrollBody").height( $height - 50 );*/
+            //         var NewHeight = $(window).height() - 350;
+            //         var oSettings = oTable.fnSettings();
+            //         oSettings.oScroll.sY = NewHeight + "px";
+            //         oTable.fnDraw();
+            //     }
+            // });
+
+            // $(window).resize(function() {
+            //     if (this.resizeTO) { clearTimeout(this.resizeTO) };
+            //     this.resizeTO = setTimeout(function() { $(this).trigger('resizeEnd'); }, 500);
+            // });
+
+            //$("div.toolbar").html(' ');
+
+            $('.dataTables_scrollBody').css("position","relative");        
+            $('.dataTables_scrollBody').perfectScrollbar({
+                wheelSpeed: 1,
+                minScrollbarLength: 30,
+                suppressScrollX: false
+            });//https://github.com/noraesae/perfect-scrollbar
+
+            //$(window).bind('resize', function () { oTable.fnAdjustColumnSizing(); } );
+        }); //$(document).ready
+    </script>
+
+</body>
+</html>
+
+
