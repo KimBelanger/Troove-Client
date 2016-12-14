@@ -18,7 +18,8 @@
 	<link href="static/template/css/bootstrap.css" rel="stylesheet" type="text/css">
 	<link href="static/template/css/bootstrap-theme.css" rel="stylesheet" type="text/css">
 	<link href="static/template/css/style.css" rel="stylesheet" type="text/css">
-	<link href="static/template/vendor/prettyphoto/css/prettyPhoto.css" rel="stylesheet" type="text/css">
+	<!--<link href="static/template/vendor/prettyphoto/css/prettyPhoto.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettyPhoto/3.1.6/css/prettyPhoto.min.css" />
 	<!--[if lte IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
 	<link href="static/template/css/custom.css" rel="stylesheet" type="text/css">
 	<link href="static/template/colors/color4.css" rel="stylesheet" type="text/css">
@@ -66,6 +67,11 @@
             display:none !important
         }
         
+        #t_cars_info{
+            text-align: right;
+            color: silver
+        }
+        
         .results-list-view .result-item {
             margin-bottom: 2px;
         }        
@@ -95,9 +101,18 @@
 
         .result-item-block.col1 {
             width: calc(100% - 160px);
-            margin-right: 0       
+            margin-right: 0;
+            max-height: 6em;
+            overflow-y: hidden;
+            text-overflow: ellipsis;                  
         }
 
+        .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
         @media only screen and (max-width: 992px){
             .result-item-block.col1 {
                 display: inherit;
@@ -133,7 +148,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
     
-    <script src="static/template/vendor/prettyphoto/js/prettyphoto.js"></script>
+    <!--<script src="static/template/vendor/prettyphoto/js/prettyphoto.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prettyPhoto/3.1.6/js/jquery.prettyPhoto.min.js"></script>
+
     <script src="static/template/js/bootstrap.js"></script>
 
     <!-- SLIMSCROLL -->
@@ -158,29 +175,29 @@
                 <div class="result-item-image">
                     <a href="javascript:;" class="media-box" >
                         <img class="table-img" src="{{=it.imgsrc}}" alt="car image">
-                        <span class="zoom" onClick="zoomThis('{{=it.imgsrc}}')"><span class='icon'><i class='icon-plus'></i></span></span>
+                        <span class="zoom" data-url="{{=it.imgsrc}}" data-titre="{{=it.titre}}" data-description="{{=it.description}}"><span class='icon'><i class='icon-plus'></i></span></span>
                     </a>
-                    <span class="label label-default vehicle-age">{{=it.annee}}</span>
-                    <span class="label label-success premium-listing">Premium Listing</span>
+                    <span class="label label-success vehicle-age">{{=it.annee}}</span>
+                    <span class="label label-warning premium-listing">{{=it.sticker}}</span>
                     <div class="result-item-view-buttons">
                         <a href="javascript:;" data-rel="prettyPhoto"><i class="fa fa-play"></i> Vidéos</a>
                         <a href="javascript:;"><i class="fa fa-plus"></i> Détails</a>
                     </div>
                 </div>
                 <div class="result-item-in">
-                    <h4 class="result-item-title"><a href="javascript:;">{{=it.titre}}</a></h4>
+                    <h4 class="result-item-title truncate"><a href="javascript:;" title="{{=it.titre}}">{{=it.titre}}</a></h4>
                     <div class="result-item-cont">
-                        <div class="result-item-block col1">
+                        <div class="result-item-block col1 desc">
                             <p>{{=it.description}}</p>
                         </div>
                         <div class="result-item-block col2">
                             <div class="result-item-pricing">
-                                <div class="price">$48000</div>
+                                <div class="price">{{=it.prix}}</div>
                             </div>
                             <div class="result-item-action-buttons">
-                                <a href="javascript:;" class="btn btn-default btn-sm"><i class="fa fa-star-o"></i> Save</a>
-                                <a href="javascript:;" class="btn btn-default btn-sm">Enquire</a><br>
-                                <a href="javascript:;" class="distance-calc"><i class="fa fa-map-marker"></i> Distance from me?</a>
+                                <a href="javascript:;" class="btn btn-default btn-sm"><i class="fa fa-star-o"></i> Favoris</a>
+                                <a href="javascript:;" class="btn btn-default btn-sm">Infos</a><br>
+                                <a href="javascript:;" class="distance-calc"><i class="fa fa-map-marker"></i> Distance ?</a>
                             </div>
                         </div>
                     </div>
@@ -215,13 +232,52 @@
 
     <script>
         var tempFn = doT.template( $("#cartlistitem").html() );
+                
+        $.urlParam = function(name){
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            if (results==null){ return null; }
+            else{ return results[1] || 0;}
+        }
+
+        function isOverflowed(element){
+            return element.scrollHeight > element.clientHeight;
+        }
+        
         function rowrender(aData,nRow){
-            //console.log(nRow);
+            //console.log(aData);
+            //srcLink,Manufacturier,Modele,Garniture,Prix,Annee,KM,Transmission,CouleurExt,CouleurInt,Places,Portes,CarProof,CarProofLink,Carburant,Cylindres,Accident,Echange,Ville,Region,RouesMotrice,RouesMotriceStr,VendeurNom,VendeurTel,TypeVendeur,Carosserie,title,StockNo,uid
             return tempFn({
-                imgsrc: aData[1],
-                titre: 'TITRE',
-                description: 'DESCRIPTION ... Lorem ipsum dolor sit amet',
-                annee: 2014
+                imgsrc: aData[1], //srcPicLink
+                srclink: aData[2],
+                manufacturier: aData[3],
+                modele: aData[4],
+                garniture: aData[5],
+                prix: aData[6],
+                annee: aData[7],
+                km: aData[8],
+                transmission: aData[9],
+                couleurext: aData[10],
+                couleurint: aData[11],
+                places: aData[12],
+                portes: aData[13],
+                carproof: aData[14],
+                carprooflink: aData[15],
+                carburant: aData[16],
+                cylindres: aData[17],
+                accident: aData[18],
+                echange: aData[19],
+                ville: aData[20],
+                region: aData[21],
+                rouesmotrice: aData[22],
+                rouesmotricestr: aData[23],
+                vendeurnom: aData[24],
+                vendeurtel: aData[25],
+                typevendeur: aData[26],
+                carosserie: aData[27],
+                titre: aData[28], //title
+                stockno: aData[29],
+                description: aData[30],
+                sticker: ""
             });
         }    
     </script>
@@ -229,8 +285,40 @@
     <script>
         $(document).ready(function()
         {
+            $.fn.prettyPhoto({
+                animation_speed: 'fast', /* fast/slow/normal */
+                slideshow: 5000, /* false OR interval time in ms */
+                autoplay_slideshow: false, /* true/false */
+                opacity: 0.80, /* Value between 0 and 1 */
+                show_title: true, /* true/false */
+                allow_resize: true, /* Resize the photos bigger than viewport. true/false */
+                default_width: 500,
+                default_height: 344,
+                counter_separator_label: '/', /* The separator for the gallery counter 1 "of" 2 */
+                theme: 'pp_default', /* light_rounded / dark_rounded / light_square / dark_square / facebook /  pp_default*/
+                horizontal_padding: 20, /* The padding on each side of the picture */
+                hideflash: false, /* Hides all the flash object on a page, set to TRUE if flash appears over prettyPhoto */
+                wmode: 'opaque', /* Set the flash wmode attribute */
+                autoplay: true, /* Automatically start videos: True/False */
+                modal: false, /* If set to true, only the close button will close the window */
+                deeplinking: true, /* Allow prettyPhoto to update the url to enable deeplinking. */
+                overlay_gallery: true, /* If set to true, a gallery will overlay the fullscreen image on mouse over */
+                keyboard_shortcuts: true, /* Set to false if you open forms inside prettyPhoto */
+                changepicturecallback: function(){}, /* Called everytime an item is shown/changed */
+                callback: function(){}, /* Called when prettyPhoto is closed */
+                ie6_fallback: true,
+                social_tools: false
+            });
 
-            $height = 400; //$(window).height() - 350;
+            $(document).on('click', '.zoom', function(){ 
+                $.prettyPhoto.open($( this ).data("url"),$( this ).data("titre"),$( this ).data("description"));
+            });
+            
+            zoomThis = function(url,titre,description) {
+                $.prettyPhoto.open(url,titre,description);
+            }
+
+            $height = $.urlParam('h'); //$(window).height() - 350;
 
             var oTable = $('#t_cars').dataTable({
                 "bProcessing": true,
@@ -243,8 +331,8 @@
                 "bScrollInfinite": true,
                 "bScrollCollapse": true,
                 "oScroller": { "loadingIndicator": true }, 
-                "sScrollY": $height - 50 + 'px',
-                "iScrollLoadGap": 50,
+                "sScrollY": $height - 77 + 'px',
+                "iScrollLoadGap": 300,
                 "sAjaxSource": "https://data.troove.ca/data.cfm",
                 "sDom": "<'row-fluid'<'span5'<'toolbar'>><'span2'r><'span5 pull-right'f>>t<'row-fluid'<'span6'i><'span6'>>",
                 "bDeferRender": true,
@@ -263,9 +351,9 @@
                     "sProcessing": "chargement..",
                     "sLengthMenu": "_MENU_ lignes par page",
                     "sZeroRecords": "Aucune donn\xE9es",
-                    "sInfo": "Lignes <var>_START_<\/var> \xE0 <var>_END_<\/var> sur <var>_TOTAL_<\/var> r\xE9sultats",
+                    "sInfo": "<var>_START_<\/var> \xE0 <var>_END_<\/var> sur <var>_TOTAL_<\/var> r\xE9sultats", //Lignes <var>_START_<\/var> \xE0 <var>_END_<\/var> sur <var>_TOTAL_<\/var> r\xE9sultats
                     "sInfoEmpty": "Aucune donn\xE9es",
-                    "sInfoFiltered": "(filtr\xE9 \xE0 partir de <var>_MAX_<\/var> lignes totales)",
+                    "sInfoFiltered": "", //(filtr\xE9 \xE0 partir de <var>_MAX_<\/var> lignes totales)
                     "sSearch": "",
                     "oPaginate": {
                         "sFirst": "Premier",
@@ -279,7 +367,13 @@
                     return nRow;
                 },
                 "fnDrawCallback": function(oSettings) {
-                }
+                    
+                },
+                "fnCreatedRow": function( nRow, aData, iDisplayIndex ) {
+                    var el = $('.desc');
+                    //console.log( isOverflowed(el) );
+                    //console.log( el.scrollHeight ); 
+                }                
             }); //dataTable
 
             // $(window).bind('resizeEnd', function()
