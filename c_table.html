@@ -148,6 +148,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
     
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.fr-CA,Intl.~locale.en-CA"></script>
+
     <!--<script src="static/template/vendor/prettyphoto/js/prettyphoto.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prettyPhoto/3.1.6/js/jquery.prettyPhoto.min.js"></script>
 
@@ -203,11 +205,40 @@
                     </div>
                     <div class="result-item-features">
                         <ul class="inline">
-                            <li><i class="fa fa-caret-right"></i>4 door SUV</li>
-                            <li><i class="fa fa-caret-right"></i>6 cyl, 3.0 L Petrol</li>
-                            <li><i class="fa fa-caret-right"></i>6 speed Automatic</li>
-                            <li><i class="fa fa-caret-right"></i>4x4 Wheel Drive</li>
-                            <li><i class="fa fa-caret-right"></i>Listed by Individual</li>
+                            <li><i class="fa fa-caret-right"></i>{{=it.pubdate}}</li>
+                            {{? it.km }}
+                                <li><i class="fa fa-caret-right"></i>{{=it.km}} KM</li>
+                            {{?}}
+                            {{? it.typevendeur }}
+                                <li><i class="fa fa-caret-right"></i>{{=it.typevendeur}}</li>
+                            {{?}}                            
+                            {{? it.rouesmotricestr && it.rouesmotricestr != 'Autre'}}
+                                <li><i class="fa fa-caret-right"></i>{{=it.rouesmotricestr}}</li>
+                            {{?}}
+                            {{? it.carburant }}
+                                <li><i class="fa fa-caret-right"></i>{{=it.carburant}}</li>
+                            {{?}}
+                            {{? it.cylindres > 2  && it.cylindres != 'Autre' }}
+                                <li><i class="fa fa-caret-right"></i>{{=it.cylindres}} cylindres</li>
+                            {{?}}
+                            {{? it.carosserie && it.carosserie != 'Autre' }}
+                                <li><i class="fa fa-caret-right"></i>{{=it.carosserie}}</li>
+                            {{?}}
+                            {{? it.portes > 0}}
+                                <li><i class="fa fa-caret-right"></i>{{=it.portes}} portes</li>
+                            {{?}}
+                            {{? it.places > 0}}
+                                <li><i class="fa fa-caret-right"></i>{{=it.places}} places</li>
+                            {{?}}
+                            {{? it.couleurext}}
+                                <li><i class="fa fa-caret-right"></i>{{=it.couleurext}}</li>
+                            {{?}}
+                            {{? it.transmission && it.transmission != 'Autre' }}
+                                <li><i class="fa fa-caret-right"></i>{{=it.transmission}}</li>
+                            {{?}}
+                            {{? it.garniture}}
+                                <li><i class="fa fa-caret-right"></i>{{=it.garniture}}</li>
+                            {{?}}                                                                                                                                                                                                                                    
                         </ul>
                     </div>
                 </div>
@@ -232,7 +263,28 @@
 
     <script>
         var tempFn = doT.template( $("#cartlistitem").html() );
-                
+
+        // currency formatter.
+        var dollar = new Intl.NumberFormat('fr-CA', {
+            style: 'currency',
+            currency: 'CAD',
+            minimumFractionDigits: 0,
+        });
+
+        // km formatter.
+        var bignumber = new Intl.NumberFormat('fr-CA', {
+            style: 'decimal',
+            useGrouping: true,
+            minimumFractionDigits: 0,
+        });
+
+        // date courte formatter.
+        var shortDate = new Intl.DateTimeFormat('fr-CA', {
+            year: "numeric", 
+            month: "long", 
+            day: "numeric"
+        });        
+
         $.urlParam = function(name){
             var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
             if (results==null){ return null; }
@@ -245,39 +297,85 @@
         
         function rowrender(aData,nRow){
             //console.log(aData);
-            //srcLink,Manufacturier,Modele,Garniture,Prix,Annee,KM,Transmission,CouleurExt,CouleurInt,Places,Portes,CarProof,CarProofLink,Carburant,Cylindres,Accident,Echange,Ville,Region,RouesMotrice,RouesMotriceStr,VendeurNom,VendeurTel,TypeVendeur,Carosserie,title,StockNo,uid
+            // ASSIGNATIONS:
+                //00 uid            : 37541
+                //01 srcPicLink     : "http://i.ebayimg.com/00/s/NDUwWDgwMA==/z/sGUAAOSwuAVWvOga/$_35.JPG"
+                //02 srcLink        : "http://www.kijiji.ca/v-autos-camions/ville-de-montreal/2008-honda-civic-sedan/1139613452"
+                //03 Manufacturier  : "Honda"
+                //04 Modele         : "Civic"
+                //05 Garniture      : ""
+                //06 Prix           : "6 000 $"
+                //07 Annee          : "2008"
+                //08 KM             : "133000"
+                //09 Transmission   : "Automatique"
+                //10 CouleurExt     : "Havane"
+                //11 CouleurInt     : ""
+                //12 Places         : "5"
+                //13 Portes         : "4"
+                //14 CarProof       : "0"
+                //15 CarProofLink   : ""
+                //16 Carburant      : "Essence"
+                //17 Cylindres      : "-1"
+                //18 Accident       : "-1"
+                //19 Echange        : "-1"
+                //20 Ville          : "2125 Rue de l'Église, Verdun, QC"
+                //21 Region         : ""
+                //22 RouesMotrice   : "-1"
+                //23 RouesMotriceStr: "Roues motrices avant"
+                //24 VendeurNom     : ""
+                //25 VendeurTel     : ""
+                //26 TypeVendeur    : "Propriétaire"
+                //27 Carosserie     : "Berline"
+                //28 title          : "2008 Honda Civic Sedan"
+                //29 StockNo        : ""
+                //30 description    : "This is a 4 cylinder car with automatic transmission and air conditioning. The body is in perfect condition and the car has passed the CAA inspection and is impeccable. For any inquiries you can&#8230;"
+                //31 pubdate        : "{ts '2016-02-25 00:00:00'}"
+                //32 srcPicLink0    : "http://i.ebayimg.com/00/s/NDUwWDgwMA==/z/ONcAAOSwG-1WvOgg/$_35.JPG"
+                //33 srcPicLink1    : "http://i.ebayimg.com/00/s/NDUwWDgwMA==/z/OV4AAOSwG-1WvOgm/$_35.JPG"
+                //34 srcPicLink2    : "http://i.ebayimg.com/00/s/NDUwWDgwMA==/z/okoAAOSwQYZWvOgq/$_35.JPG"
+                //35 srcPicLink3    : "http://i.ebayimg.com/00/s/NDUwWDgwMA==/z/K~YAAOSwll1WvOgz/$_35.JPG"
+                //36 srcPicLink4    : "http://i.ebayimg.com/00/s/NDUwWDgwMA==/z/O20AAOSwG-1WvOg4/$_35.JPG"
+                //37 srcPicLink5    : "http://i.ebayimg.com/00/s/NDUwWDgwMA==/z/W7UAAOSwezVWvOg9/$_35.JPG"
+                //38 srcPicLink6    : "https://placeholdit.imgix.net/~text?txtsize=33&txt=200%C3%97149&w=200&h=149"
+                //39 srcPicLink7    : "https://placeholdit.imgix.net/~text?txtsize=33&txt=200%C3%97149&w=200&h=149"
+                //40 srcPicLink8    : "https://placeholdit.imgix.net/~text?txtsize=33&txt=200%C3%97149&w=200&h=149"
+                //41 srcPicLink9    : "https://placeholdit.imgix.net/~text?txtsize=33&txt=200%C3%97149&w=200&h=149"
+                //42 pubdateepoch   :
+            //
+
             return tempFn({
-                imgsrc: aData[1], //srcPicLink
-                srclink: aData[2],
-                manufacturier: aData[3],
-                modele: aData[4],
-                garniture: aData[5],
-                prix: aData[6],
-                annee: aData[7],
-                km: aData[8],
-                transmission: aData[9],
-                couleurext: aData[10],
-                couleurint: aData[11],
-                places: aData[12],
-                portes: aData[13],
-                carproof: aData[14],
-                carprooflink: aData[15],
-                carburant: aData[16],
-                cylindres: aData[17],
-                accident: aData[18],
-                echange: aData[19],
-                ville: aData[20],
-                region: aData[21],
-                rouesmotrice: aData[22],
+                imgsrc         : aData[1], //srcPicLink
+                srclink        : aData[2],
+                manufacturier  : aData[3],
+                modele         : aData[4],
+                garniture      : aData[5],
+                prix           : dollar.format( aData[6] ),
+                annee          : aData[7],
+                km             : bignumber.format( aData[8] ),
+                transmission   : aData[9],
+                couleurext     : aData[10],
+                couleurint     : aData[11],
+                places         : aData[12],
+                portes         : aData[13],
+                carproof       : aData[14],
+                carprooflink   : aData[15],
+                carburant      : aData[16],
+                cylindres      : aData[17],
+                accident       : aData[18],
+                echange        : aData[19],
+                ville          : aData[20],
+                region         : aData[21],
+                rouesmotrice   : aData[22],
                 rouesmotricestr: aData[23],
-                vendeurnom: aData[24],
-                vendeurtel: aData[25],
-                typevendeur: aData[26],
-                carosserie: aData[27],
-                titre: aData[28], //title
-                stockno: aData[29],
-                description: aData[30],
-                sticker: ""
+                vendeurnom     : aData[24],
+                vendeurtel     : aData[25],
+                typevendeur    : aData[26],
+                carosserie     : aData[27],
+                titre          : aData[28], //title
+                stockno        : aData[29],
+                description    : aData[30],
+                pubdate        : shortDate.format( new Date(aData[42]*1000 ) ),
+                sticker        : ""
             });
         }    
     </script>
@@ -313,10 +411,6 @@
             $(document).on('click', '.zoom', function(){ 
                 $.prettyPhoto.open($( this ).data("url"),$( this ).data("titre"),$( this ).data("description"));
             });
-            
-            zoomThis = function(url,titre,description) {
-                $.prettyPhoto.open(url,titre,description);
-            }
 
             $height = $.urlParam('h'); //$(window).height() - 350;
 
@@ -408,5 +502,3 @@
 
 </body>
 </html>
-
-
