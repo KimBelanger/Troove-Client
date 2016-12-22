@@ -17,6 +17,8 @@
     "babel-core": "^6.18.2",
     "eslint-loader": "^1.6.1",
     "eslint-plugin-html": "^1.6.0",
+    "isotope-layout": "^3.0.1",
+    "isotope-packery": "^2.0.0",
     "vue": "^2.0.5",
     "vue-loader": "^9.8.1"
   },

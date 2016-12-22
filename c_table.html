@@ -461,7 +461,7 @@
                     return nRow;
                 },
                 "fnDrawCallback": function(oSettings) {
-                    
+                   $('.dataTables_scrollBody').perfectScrollbar('update');
                 },
                 "fnCreatedRow": function( nRow, aData, iDisplayIndex ) {
                     var el = $('.desc');
